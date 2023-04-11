@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="app.css">
+    <title>Countdown Timer</title>
+</head>
+
+<body>
+    <h1 id="countdown"></h1>
+    <label for="minutes">Enter the duration of the countdown (in minutes):</label>
+    <input type="number" id="minutes" min="1" max="120" value="10">
+    <button onclick="startCountdown()">Start Countdown</button>
+
+    <script>
+        let countdown;
+        const timerDisplay = document.getElementById('countdown');
+        const minutesInput = document.getElementById('minutes');
+
+        function startCountdown() {
+            clearInterval(countdown);
+            const duration = minutesInput.value * 60;
+            const endTime = Date.now() + duration * 1000;
+
+            countdown = setInterval(() => {
+                const secondsLeft = Math.round((endTime - Date.now()) / 1000);
+                if (secondsLeft < 0) {
+                    clearInterval(countdown);
+                    timerDisplay.textContent = 'Time is up!';
+                    return;
+                }
+                const minutes = Math.floor(secondsLeft / 60);
+                const seconds = secondsLeft % 60;
+                const display = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                timerDisplay.textContent = display;
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>
